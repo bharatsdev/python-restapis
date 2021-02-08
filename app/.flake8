@@ -6,4 +6,4 @@ exclude =
         migrations,
         __pycache__,
         manage.py,
-        ./app/settings
+        settings
