@@ -1,9 +1,7 @@
+
 [flake8]
-ignore = E226,E302,E41,E501
-max-line-length = 160
 exclude =
-        .git,
-        migrations,
-        __pycache__,
-        manage.py,
-        ./app/settings
+  migrations,
+  __pycache__,
+  manage.py,
+  settings.py
