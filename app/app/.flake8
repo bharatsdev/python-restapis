@@ -1,9 +1,8 @@
 [flake8]
+max-line-length = 160
 exclude =
         .git,
         migrations,
         __pycache__,
         manage.py,
-        settings.py
-
-max-line-length = 119
+        ./app/settings
