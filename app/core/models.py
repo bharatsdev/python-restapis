@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager, PermissionsMixin, AbstractBaseUser
 from django.db import models
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -36,3 +37,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+
+class Tag(models.Model):
+    """Tag should be use for a recipe"""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=5, blank=None)
+
+    class Meta:
+        db_table = "Tag"
+
+    def __str__(self):
+        return self.name
