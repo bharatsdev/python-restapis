@@ -6,6 +6,7 @@ from rest_framework.test import APIClient
 
 CREATE_USER_URL = reverse("users:create")
 TOKEN_URL = reverse("users:token")
+ME_URL = reverse("users:me")
 
 
 def create_user(**params):
@@ -71,7 +72,6 @@ class PublicUserApiTest(TestCase):
         }
         create_user(**payload)
         resp = self.client.post(TOKEN_URL, payload)
-        print(resp.data)
 
         self.assertIn('token', resp.data)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -100,3 +100,50 @@ class PublicUserApiTest(TestCase):
 
         self.assertNotIn('token', resp.data)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthorized(self):
+        """Test That Authentication is required for the user"""
+        resp = self.client.get(ME_URL)
+
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivateUserApiTest(TestCase):
+    """Test API request that require authentication"""
+
+    def setUp(self):
+        self.user = create_user(email="bharat321@robosoftin.com",
+                                name="Bharat Singh",
+                                password="passwordqwe")
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_profile_success(self):
+        """Test retrieve profile of logged in user. """
+        resp = self.client.get(ME_URL)
+
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.data, {
+            'email': self.user.email,
+            'name': self.user.name,
+        })
+
+    def test_post_me_not_allowed(self):
+        """Test that POST http method is not allowed on the me url"""
+        resp = self.client.post(ME_URL, {})
+
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_update_user_profile(self):
+        """Test Updating the user profile for authenticated user """
+        payload = {
+            'name': "renu@robo.com",
+            'password': "renu@robo.com"
+        }
+
+        resp = self.client.patch(ME_URL, payload)
+
+        self.user.refresh_from_db()
+        self.assertEqual(resp.data['name'], payload['name'])
+        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
