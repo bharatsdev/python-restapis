@@ -20,6 +20,6 @@ WORKDIR /app
 
 COPY ./app /app
 
-# Crete user for the images, so image will not be deployed in root
+# Crete users for the images, so image will not be deployed in root
 RUN adduser -D user
 USER user

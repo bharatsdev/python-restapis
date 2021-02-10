@@ -4,7 +4,7 @@ from django.db import models
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
-        """Creates and saved an new user"""
+        """Creates and saved an new users"""
         if not email:
             raise ValueError('User must have an email address.')
 
@@ -26,7 +26,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """Custom user model that support using email instead of username"""
+    """Custom users model that support using email instead of username"""
 
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
