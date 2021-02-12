@@ -42,10 +42,22 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Tag(models.Model):
     """Tag should be use for a recipe"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=5, blank=None)
+    name = models.CharField(max_length=10, blank=None)
 
     class Meta:
         db_table = "Tag"
+
+    def __str__(self):
+        return self.name
+
+
+class Ingredient(models.Model):
+    """"""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=10, blank=False, null=False)
+
+    class Meta:
+        db_table = "Ingredients"
 
     def __str__(self):
         return self.name
