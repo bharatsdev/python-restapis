@@ -7,9 +7,6 @@ router.register("tags", TagViewSets)
 router.register("ingredient", IngredientViewSet)
 app_name = "recipe"
 
-print("************* Router Url****************")
-print(router.urls)
-
 urlpatterns = [
     path('', include(router.urls))
 ]

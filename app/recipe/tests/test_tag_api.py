@@ -44,8 +44,6 @@ class PrivateTagsTests(TestCase):
         serializers = TagSerializer(tags, many=True)
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        print(resp.data)
-        print(serializers.data)
         self.assertEqual(resp.data, serializers.data)
 
     def test_tage_retrieve_login_user_tags(self):

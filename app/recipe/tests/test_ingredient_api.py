@@ -76,5 +76,4 @@ class PrivateIngredientApiTest(TestCase):
         payload = {'name': ""}
         resp = self.client.post(INGREDIENT_URL, payload)
 
-        print('resp.status_code {}', resp.status_code)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
