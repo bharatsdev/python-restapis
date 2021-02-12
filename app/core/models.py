@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Tag(models.Model):
     """Tag should be use for a recipe"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=10, blank=None)
+    name = models.CharField(max_length=255, blank=None)
 
     class Meta:
         db_table = "Tag"
@@ -54,7 +54,7 @@ class Tag(models.Model):
 class Ingredient(models.Model):
     """"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=10, blank=False, null=False)
+    name = models.CharField(max_length=255, blank=False, null=False)
 
     class Meta:
         db_table = "Ingredients"
@@ -65,7 +65,7 @@ class Ingredient(models.Model):
 
 class Recipe(models.Model):
     """"""
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=255)
     time_minutes = models.IntegerField()
     price = models.DecimalField(max_digits=5, decimal_places=2, default=10.00)
     link = models.CharField(max_length=255, blank=True)
