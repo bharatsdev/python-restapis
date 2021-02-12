@@ -11,7 +11,7 @@ script:
   - docker-compose run app sh -c "python manage.py test  && flake8"
 deploy:
   provider: heroku
-  skip_cleanup: true
+  cleanup: true
   edge: true
   api_key: ${HEROKU_API_KEY}
 #    secure: qLEHElawOZ8GcKfBqaAfFZ4IVTqpjbl4AIlNYBnCNxep7kqQesonXqr29yl9sAH6LNU8HqONztsl6aRPgkhi316xok89+FxYf69dydiL2MbzCgonvFGdvb3D0H5vFJKA17jukDMo2ixvXaNZQg9uGVrQi6+w/d8Ik3ZNh2Q/gQ7tL7+QhCbDxEI+a5zGhh2LGs68QTHg6pldUlSfHE0u5JgRKE/g75oPGklCLJ84mov6Xhquig/q1wEj1/EKO580H/mJScQ4+j3K0OF1Vjo/6hglG0X/r1Hk2xNjqbaeEVyRE4x9Q6LQAw1z17rH16CFbw4WKcXmZ4PHAfsFeKDUwYWTiT2zoRo+o6M83n52JmAsKcMDu/pGWypycfCjotUNwv1eZNpvDRUSQYOIGP8xzej6X6piobUqgIE7CvV5fwTC1PQVVKG+skxO6lWlSLkVbyueBBChYAeoyKhB9pjHwojwK46s6FkYT4/KKWZNIrcoNhCwXFhO9/ZaEbCExiu6Z7zmC61tlEPQWwPIaCMfvFcdxBsOaRStq4KL3Rf1BxrIqAAqyVi5makIKffJs3y3fEDyDnktqN7WRs9cWPtBLaNlJwuObZ5wXBP9PM01ppVJfXv6iqOmTwCA1y230mblmta8RNUBxl4TPTXMSs0UOIu4HZ16VbPN2VI1bfg5nso=
