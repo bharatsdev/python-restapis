@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from core.models import Tag, Ingredient, Recipe
+from rest_framework import serializers
 
 
 class TagSerializer(serializers.ModelSerializer):

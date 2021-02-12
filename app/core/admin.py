@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Tag, Ingredient, Recipe
 from django.utils.translation import gettext as _
+
+from .models import User, Tag, Ingredient, Recipe
 
 
 class UserAdmin(BaseUserAdmin):

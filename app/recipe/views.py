@@ -1,8 +1,8 @@
+from core import models
+from recipe.serializers import TagSerializer, IngredientSerializer, RecipeSerializer
 from rest_framework import mixins, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from core import models
-from recipe.serializers import TagSerializer, IngredientSerializer, RecipeSerializer
 
 
 class BaseRecipeViewSets(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
