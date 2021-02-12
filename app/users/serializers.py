@@ -6,10 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 class AuthTokenSerializer(serializers.Serializer):
     """Serializer for user authentication of object"""
     email = serializers.CharField()
-    password = serializers.CharField(
-        style={'input_type', 'password'},
-        trim_whitespace=True
-    )
+    password = serializers.CharField()
 
     def validate(self, attrs):
         """Validate and Authenticate the user"""
