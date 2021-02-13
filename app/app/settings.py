@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'core',
     'users',
     'recipe',
+    'gunicorn',
+
 ]
 
 MIDDLEWARE = [
