@@ -1,11 +1,13 @@
 language: python
+
 cache: pip #Cache pip dir
+
 notifications:
   email: true
 
 python:
   - "3.6"
-
+  -
 services:
   - docker
 
