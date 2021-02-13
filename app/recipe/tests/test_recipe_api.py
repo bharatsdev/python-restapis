@@ -6,7 +6,7 @@ from recipe.serializers import RecipeSerializer, RecipeDetailsSerializer
 from rest_framework import status
 from rest_framework.test import APIClient
 
-RECIPE_URL = reverse("recipe:recipe-list")
+RECIPES_URL = reverse("recipe:recipe-list")
 
 
 # api/recipe/recipes
@@ -14,8 +14,6 @@ RECIPE_URL = reverse("recipe:recipe-list")
 
 def recipe_details_url(recipe_id):
     """Retrieve recipe details"""
-    print(reverse("recipe:recipe-detail", args=[recipe_id]))
-
     return reverse("recipe:recipe-detail", args=[recipe_id])
 
 
@@ -48,7 +46,7 @@ class PublicRecipeApiTest(TestCase):
 
     def test_authentication_required(self):
         """Test Authentication required to access recipe apis"""
-        resp = self.client.get(RECIPE_URL)
+        resp = self.client.get(RECIPES_URL)
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
@@ -58,16 +56,16 @@ class PrivateRecipeApiTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create(
-            email="bharat.singh@robosoft.in.com",
-            password="bharat.singh@robosoft.in.com"
+            email="user.ingredient#@test.com",
+            name="Ingredient test"
         )
-        self.client.force_authenticate(user=self.user)
+        self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
         """Test retrieve list of recipes"""
         sample_recipe(user=self.user)
         sample_recipe(user=self.user)
-        resp = self.client.get(RECIPE_URL)
+        resp = self.client.get(RECIPES_URL)
 
         Recipe.objects.all().order_by("-id")
         # serializer = RecipeSerializer(recipes, many=True)
@@ -86,7 +84,7 @@ class PrivateRecipeApiTest(TestCase):
         sample_recipe(user=user2)
         sample_recipe(user=self.user)
 
-        resp = self.client.get(RECIPE_URL)
+        resp = self.client.get(RECIPES_URL)
         recipes = Recipe.objects.filter(user=self.user)
         serializer = RecipeSerializer(recipes, many=True)
 
@@ -105,3 +103,19 @@ class PrivateRecipeApiTest(TestCase):
         serializer = RecipeDetailsSerializer(recipe, many=False)
 
         self.assertEqual(resp.data, serializer.data)
+
+    def test_create_basic_recipe(self):
+        """Test creating recipe"""
+        payload = {
+            'title': 'Test My recipe',
+            'time_minutes': 30,
+            'price': 10.00,
+        }
+
+        resp = self.client.post(RECIPES_URL, payload)
+
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        recipe = Recipe.objects.get(id=resp.data['id'])
+        for key in payload.keys():
+            print(getattr(recipe, key))
+            self.assertEqual(payload[key], getattr(recipe, key))
