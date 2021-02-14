@@ -117,26 +117,31 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),)
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-MEDIA_ROOT = os.path.join(BASE_DIR, '/vol/web/media')
-
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
+# MEDIA_ROOT = os.path.join(BASE_DIR, '/vol/web/media')
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'root/app/static'),
 # )
 #
 # MEDIA_ROOT = os.path.join(BASE_DIR, "/vol/web/media")
-MEDIA_URL = "/media/"
-
-# STATIC_ROOT = os.path.join(BASE_DIR, "/vol/web/static")
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# MEDIA_URL = "/media/"
+#
+# # STATIC_ROOT = os.path.join(BASE_DIR, "/vol/web/static")
+#
+# # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'core.User'
 
 # 127.0.0.1:8080/media/
+MEDIA_ROOT = os.path.join(BASE_DIR, "/vol/web/media")
+MEDIA_URL = "/media/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATIC_URL = '/static/'
+# STATIC_ROOT =( os.path.join(BASE_DIR, 'staticfiles'),)
+#
+# STATICFILES_DIRS = {
+#     os.path.join(BASE_DIR, 'static')
+# }
