@@ -63,7 +63,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         """Return appropriate action class"""
-        print(f'Action of application {self.action}')
         if self.action is 'retrieve':
             return RecipeDetailsSerializer
         elif self.action == 'upload_image':

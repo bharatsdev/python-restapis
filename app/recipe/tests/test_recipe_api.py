@@ -237,12 +237,10 @@ class RecipeImageUploadTest(TestCase):
         self.recipe = sample_recipe(self.user)
 
     def tearDown(self):
-        print("Tear Down executed...!")
         self.recipe.image.delete()
 
     def test_upload_image_to_recipe(self):
         """Test uploading a image to recipe"""
-        print(f'Recipe Id :{self.recipe.id}')
         url = upload_image_url(self.recipe.id)
         with tempfile.NamedTemporaryFile(suffix='.jpg') as ntf:
             img = Image.new('RGB', (10, 10))
@@ -254,7 +252,6 @@ class RecipeImageUploadTest(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertIn('image', resp.data)
         self.assertTrue(os.path.exists(self.recipe.image.path))
-        print(f'File path : {self.recipe.image.path}')
 
     def test_recipe_upload_image_bad_request(self):
         """Test """
