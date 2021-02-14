@@ -10,21 +10,22 @@ RUN apk add --update --no-cache  postgresql-client jpeg-dev
 RUN apk add --update --no-cache --virtual ./temp-build-deps \
     gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
 
-RUN mkdir /app
-
-WORKDIR /app
-
 RUN pip install -r /requirements.txt
 
 RUN apk del ./temp-build-deps
 
-ADD ./app /app
-COPY ./app /app
-RUN mkdir -p /vol/web/media/
-RUN mkdir -p /vol/web/static/
+RUN mkdir /app
 
-# Crete users for the images, so image will not be deployed with  root user
+WORKDIR /app
+
+COPY ./app /app
+
+# Crete users for the images, so image will not be deployed in root
 RUN adduser -D user
+RUN mkdir -p /vo/web/media
+RUN mkdir -p /vo/web/static
+
 RUN chown -R user:user /vol/
-RUN chmod 777 /vol/web
+RUN chmod 755 /vol/web
+
 USER user
