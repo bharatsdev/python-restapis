@@ -143,7 +143,7 @@ class PrivateRecipeApiTest(TestCase):
     def test_create_recipe_with_ingredient(self):
         """Test create Recipe with ingredients"""
         ingredient1 = sample_ingredient(user=self.user, name="Prawns")
-        ingredient2 = sample_ingredient(user=self.user, name="Prawns")
+        ingredient2 = sample_ingredient(user=self.user, name="N0-Prawns")
         payload = {
             'title': 'Thai prawn red corry ',
             'ingredients': [ingredient2.id, ingredient1.id],
@@ -158,3 +158,61 @@ class PrivateRecipeApiTest(TestCase):
         self.assertEqual(ingredients.count(), 2)
         self.assertIn(ingredient1, ingredients)
         self.assertIn(ingredient2, ingredients)
+
+    def test_partial_update_recipe(self):
+        """Test updating a recipe with patch"""
+        recipe = sample_recipe(user=self.user)
+        recipe.tags.add(sample_tag(self.user))
+        new_tag = sample_tag(self.user, name="Curry")
+        payload = {
+            'title': 'Paneer Tikka',
+            'tags': [new_tag.id]
+        }
+        url = recipe_details_url(recipe_id=recipe.id)
+        self.client.patch(url, payload)
+
+        recipe.refresh_from_db()
+        tags = recipe.tags.all()
+
+        self.assertEqual(len(tags), 1)
+        self.assertIn(new_tag, tags)
+
+    def test_filter_recipe_by_tags(self):
+        """Test returning  recipes by given tag"""
+        recipe1 = sample_recipe(self.user, title="Thai vegetable curry")
+        recipe2 = sample_recipe(self.user, title="Aubergine with tahini")
+        tags1 = sample_tag(user=self.user, name="Vegan")
+        tags2 = sample_tag(user=self.user, name="Vegetarian")
+        recipe1.tags.add(tags1)
+        recipe2.tags.add(tags2)
+
+        recipe3 = sample_recipe(self.user, title="Fish and Chips")
+        resp = self.client.get(RECIPES_URL, {'tags': f'{tags1.id},{tags2.id}'})
+
+        serializer1 = RecipeSerializer(recipe1)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
+
+        self.assertIn(serializer1.data, resp.data)
+        self.assertIn(serializer2.data, resp.data)
+        self.assertNotIn(serializer3.data, resp.data)
+
+    def test_filter_recipe_by_ingredients(self):
+        """Test returning  recipes by given tag"""
+        recipe1 = sample_recipe(user=self.user, title="Thai vegetable curry")
+        recipe2 = sample_recipe(user=self.user, title="Aubergine with tahini")
+        ingredient1 = sample_ingredient(user=self.user, name="Vegan")
+        ingredient2 = sample_ingredient(user=self.user, name="Vegetarian")
+        recipe1.ingredients.add(ingredient1)
+        recipe2.ingredients.add(ingredient2)
+
+        recipe3 = sample_recipe(self.user, title="Fish and Chips")
+        resp = self.client.get(RECIPES_URL, {'ingredients': f'{ingredient1.id},{ingredient2.id}'})
+
+        serializer1 = RecipeSerializer(recipe1)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
+
+        self.assertIn(serializer1.data, resp.data)
+        self.assertIn(serializer2.data, resp.data)
+        self.assertNotIn(serializer3.data, resp.data)

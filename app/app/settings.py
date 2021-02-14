@@ -116,5 +116,11 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "/vo/web/media"
+STATIC_ROOT = "/vo/web/static"
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'core.User'
+
+# 127.0.0.1:8080/media/
