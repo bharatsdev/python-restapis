@@ -25,5 +25,5 @@ RUN mkdir -p /vol/web/static
 # Crete users for the images, so image will not be deployed with  root user
 RUN adduser -D user
 RUN chown -R user:user /vol/
-RUN chmod 755 /vol/web
+RUN chmod 777 /vol/web
 USER user
