@@ -22,8 +22,8 @@ COPY ./app /app
 
 # Crete users for the images, so image will not be deployed in root
 RUN adduser -D user
-RUN mkdir -p /vo/web/media
-RUN mkdir -p /vo/web/static
+RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/static
 
 RUN chown -R user:user /vol/
 RUN chmod 755 /vol/web
